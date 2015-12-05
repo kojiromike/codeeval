@@ -13,42 +13,16 @@ int isPalindrome(int i) {
 }
 
 /**
- * Prime an array of flags to indicate if a number
- * is composite or prime.
- *
- * 0 means it may be prime
- * 1 means it's definitely composite.
- */
-void primePrimes(int composites[], int max) {
-    int i;
-    int j;
-    for (i = 0; i < max; i++) {
-        composites[i] = 0;
-    }
-    for (i = 2; i < max; i++) {
-        if (composites[i]) continue;
-        for (j = 2 * i; j <= i; j += i) {
-            composites[j] = 1;
-        }
-    }
-}
-
-/**
  * Determine if a number is prime
  */
 int isPrime(int i) {
-    const int MAX = 32; // Only need up to about sqrt(1000)
-    static int composites[MAX];
+    // Only need primes up to about sqrt(1000)
+    // Easiest and most compact just to write this out by hand.
+    static int primes[11] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31};
     int j;
-    if (composites[2] == 0) {
-        primePrimes(composites, MAX);
-    }
-    if (i < sizeof(composites)) {
-        return !composites[i];
-    }
-    for (j = 2; j < sizeof(composites); j++) {
-        if (composites[j]) continue;
-        if ((i % j) == 0) return 0;
+    for (j = 0; j < 11; j++) {
+        if (i == primes[j]) return 1;
+        if ((i % primes[j]) == 0) return 0;
     }
     return 1;
 }
